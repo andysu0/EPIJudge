@@ -4,11 +4,67 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-using std::vector;
+using namespace std;
 enum class Color { kRed, kWhite, kBlue };
 
+// O(N) time, O(N) space sol'n
+// void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
+//   vector<Color>& A = *A_ptr;
+//   const Color pivot = A[pivot_index];
+
+//   vector<Color> lessP;
+//   vector<Color> equalP;
+//   vector<Color> greaterP;
+
+//   for (const auto& color : A)
+//   {
+//     if (color < pivot)
+//     {
+//       lessP.push_back(color);
+//     }
+//     else if (color == pivot)
+//     {
+//       equalP.push_back(color);
+//     }
+//     else
+//     {
+//       greaterP.push_back(color);
+//     }
+//   }
+
+//   A.clear();
+//   A.insert(A.end(), lessP.begin(), lessP.end());
+//   A.insert(A.end(), equalP.begin(), equalP.end());
+//   A.insert(A.end(), greaterP.begin(), greaterP.end());
+
+//   return;
+// }
+
+// O(N) time, O(1) space
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
-  // TODO - you fill in here.
+  vector<Color>& A = *A_ptr;
+  const Color pivot = A[pivot_index];
+
+  size_t S = 0, E = 0, L = A.size();
+  while (E < L)
+  {
+    Color current = A[E];
+    if (current < pivot)
+    {
+      swap(A[S++], A[E++]);
+    }
+    else if (current > pivot)
+    {
+      // Move L first before swap because E moves after swap.
+      // If both move after swap, we may end up with the case where E == L
+      // and A[E] doesn't get inspected for that iteration.
+      swap(A[--L], A[E]);
+    }
+    else
+    {
+      ++E;
+    }
+  }
   return;
 }
 void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
