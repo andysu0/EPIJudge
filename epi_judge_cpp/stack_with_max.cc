@@ -5,22 +5,35 @@
 #include "test_framework/test_failure.h"
 using std::length_error;
 
+struct StackItem
+{
+  int value;
+  int cachedMax;
+};
+
 class Stack {
+  std::vector<StackItem> m_stack;
  public:
   bool Empty() const {
-    // TODO - you fill in here.
-    return true;
+    return m_stack.empty();
   }
   int Max() const {
-    // TODO - you fill in here.
-    return 0;
+    if (Empty())
+      return std::numeric_limits<int>::min();
+
+    return m_stack.back().cachedMax;
   }
   int Pop() {
-    // TODO - you fill in here.
-    return 0;
+    if (Empty())
+      return 0;
+
+    int value = m_stack.back().value;
+    m_stack.resize(m_stack.size() - 1);
+    return value;
   }
   void Push(int x) {
-    // TODO - you fill in here.
+    StackItem item{x, (x > Max() ? x : Max())};
+    m_stack.push_back(item);
     return;
   }
 };
