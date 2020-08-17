@@ -5,13 +5,42 @@
 using std::string;
 
 string IntToString(int x) {
-  // TODO - you fill in here.
-  return "0";
+  string result;
+  const bool isNeg = x < 0;
+
+  do
+  {
+    const int digit = abs(x % 10);
+    result += '0' + digit;
+    x /= 10;
+  } while (x);
+
+  if (isNeg)
+  {
+    result += '-';
+  }
+
+  return string(result.rbegin(), result.rend());
 }
 int StringToInt(const string& s) {
-  // TODO - you fill in here.
-  return 0;
+  if (s.empty())
+  {
+    return 0;
+  }
+
+  int result = 0;
+  bool isNeg = s[0] == '-';
+  size_t i = (isNeg || s[0] == '+') ? 1 : 0;
+
+  for (; i < s.size(); ++i)
+  {
+    const int digit = s[i] - '0';
+    result += digit * std::pow(10, s.size() - 1 - i);
+  }
+
+  return isNeg ? -result : result;
 }
+
 void Wrapper(int x, const string& s) {
   if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
