@@ -1,8 +1,30 @@
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
+
+struct TreeNodeInfo
+{
+  int height;
+  bool balanced;
+};
+
+TreeNodeInfo traverse(const unique_ptr<BinaryTreeNode<int>>& tree)
+{
+  if (!tree)
+  {
+    return {-1, true};
+  }
+
+  TreeNodeInfo leftInfo = traverse(tree->left);
+  TreeNodeInfo rightInfo = traverse(tree->right);
+  int leftH = leftInfo.height + 1;
+  int rightH = rightInfo.height + 1;
+  bool isBalanced = abs(leftH - rightH) <= 1 && leftInfo.balanced && rightInfo.balanced;
+
+  return {std::max(leftH, rightH), isBalanced};
+}
+
 bool IsBalanced(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
-  return true;
+  return traverse(tree).balanced;
 }
 
 int main(int argc, char* argv[]) {
