@@ -1,12 +1,35 @@
 #include <string>
+#include <unordered_map>
 
 #include "test_framework/generic_test.h"
 using std::string;
 
 bool IsLetterConstructibleFromMagazine(const string& letter_text,
-                                       const string& magazine_text) {
-  // TODO - you fill in here.
-  return true;
+                                       const string& magazine_text)
+{
+  std::unordered_map<char, size_t> letterChar;
+
+  for (const char& c : letter_text)
+  {
+    ++letterChar[c];
+  }
+
+  for (const char& c : magazine_text)
+  {
+    auto it = letterChar.find(c);
+    if (it != letterChar.end())
+    {
+      --it->second;
+
+      if (it->second == 0)
+        letterChar.erase(c);
+
+      if (letterChar.empty())
+        break;
+    }
+  }
+
+  return letterChar.empty();
 }
 
 int main(int argc, char* argv[]) {
