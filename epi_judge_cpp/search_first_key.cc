@@ -4,8 +4,32 @@
 using std::vector;
 
 int SearchFirstOfK(const vector<int>& A, int k) {
-  // TODO - you fill in here.
-  return 0;
+  int L = 0, U = A.size() - 1;
+
+  while (L <= U)
+  {
+    int mid = L + (U - L) / 2;
+    if (k < A[mid])
+    {
+      U = mid - 1;
+    }
+    else if (k > A[mid])
+    {
+      L = mid + 1;
+    }
+    else
+    {
+      // k == A[mid]
+      while (mid >= 0 && A[mid] == k)
+      {
+        --mid;
+      }
+
+      return mid + 1;
+    }
+  }
+
+  return -1;
 }
 
 int main(int argc, char* argv[]) {
