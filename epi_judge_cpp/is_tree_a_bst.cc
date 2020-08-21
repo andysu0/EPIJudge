@@ -4,9 +4,34 @@
 #include "test_framework/generic_test.h"
 using std::unique_ptr;
 
+void DFS(const unique_ptr<BinaryTreeNode<int>>& tree, int& visitedVal, bool& isBST) {
+
+  if (tree->left)
+  {
+    DFS(tree->left, visitedVal, isBST);
+  }
+
+  if (tree->data < visitedVal)
+    isBST = false;
+
+  visitedVal = tree->data;
+
+  if (tree->right)
+  {
+    DFS(tree->right, visitedVal, isBST);
+  }
+}
 bool IsBinaryTreeBST(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
-  return true;
+  if (!tree)
+  {
+    return true;
+  }
+
+  bool isBST = true;
+  int visitedVal = std::numeric_limits<int>::min();
+  DFS(tree, visitedVal, isBST);
+
+  return isBST;
 }
 
 int main(int argc, char* argv[]) {
