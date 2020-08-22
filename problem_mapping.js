@@ -2126,7 +2126,7 @@ problem_mapping = {
                 "total": 46
             },
             "C++: max_sum_subarray.cc": {
-                "passed": 0,
+                "passed": 1001,
                 "total": 1001
             },
             "Java: Fibonacci.java": {
