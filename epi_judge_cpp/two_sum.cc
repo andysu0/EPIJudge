@@ -4,8 +4,28 @@
 using std::vector;
 
 bool HasTwoSum(const vector<int>& A, int t) {
-  // TODO - you fill in here.
-  return true;
+  if (A.empty())
+  {
+    return false;
+  }
+
+  int i = 0, j = A.size() - 1;
+  while (i <= j)
+  {
+    int sum = A[i] + A[j];
+    if (sum > t)
+    {
+      --j;
+    }
+    else if (sum < t)
+    {
+      ++i;
+    }
+    else
+      return true;
+  }
+
+  return false;
 }
 
 int main(int argc, char* argv[]) {

@@ -2364,7 +2364,7 @@ problem_mapping = {
                 "total": 103
             },
             "C++: two_sum.cc": {
-                "passed": 0,
+                "passed": 1005,
                 "total": 1005
             },
             "Java: MinimumPointsCoveringIntervals.java": {
