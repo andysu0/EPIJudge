@@ -7,7 +7,20 @@
 using std::vector;
 
 void EvenOdd(vector<int>* A_ptr) {
-  // TODO - you fill in here.
+  auto& A = *A_ptr;
+  int even = 0, odd = A.size() - 1;
+
+  while (even < odd)
+  {
+    if (A[even] % 2 == 0)
+    {
+      ++even;
+    }
+    else
+    {
+      std::swap(A[even], A[odd--]);
+    }
+  }
   return;
 }
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
