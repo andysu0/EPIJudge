@@ -1,6 +1,7 @@
 #include <istream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
@@ -15,10 +16,43 @@ struct Coordinate {
 
   int x, y;
 };
+
+bool search(const Coordinate& cur, const Coordinate& end, vector<Coordinate>& path, vector<vector<Color>>& maze)
+{
+  if (!(0 <= cur.x && cur.x < maze.size()
+      && 0 <= cur.y && cur.y < maze[cur.x].size()
+      && maze[cur.x][cur.y] == Color::kWhite))
+  {
+    return false;
+  }
+
+  maze[cur.x][cur.y] = Color::kBlack;
+  path.push_back(cur);
+
+  if (cur == end)
+  {
+    return true;
+  }
+
+  for (const auto& coord : {Coordinate{cur.x, cur.y + 1},
+                            Coordinate{cur.x, cur.y - 1},
+                            Coordinate{cur.x - 1, cur.y},
+                            Coordinate{cur.x + 1, cur.y}})
+  {
+    if (search(coord, end, path, maze))
+      return true;
+  }
+
+  path.pop_back();
+  return false;
+}
+
 vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
-                              const Coordinate& e) {
-  // TODO - you fill in here.
-  return {};
+                              const Coordinate& e)
+{
+  vector<Coordinate> result;
+  search(s, e, result, maze);
+  return result;;
 }
 
 namespace test_framework {
