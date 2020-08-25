@@ -2,6 +2,7 @@
 #include <functional>
 #include <iterator>
 #include <vector>
+#include <random>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
@@ -9,7 +10,19 @@
 using std::bind;
 using std::vector;
 void RandomSampling(int k, vector<int>* A_ptr) {
-  // TODO - you fill in here.
+  auto& A = *A_ptr;
+  auto size = A.size();
+  std::default_random_engine eng;
+
+  for (size_t i = 0; i < k; ++i)
+  {
+    std::uniform_int_distribution<int> dist(i, size - 1);
+    int picked = dist(eng);
+    std::swap(A[picked], A[i]);
+  }
+
+  A.resize(k);
+
   return;
 }
 bool RandomSamplingRunner(TimedExecutor& executor, int k, vector<int> A) {
